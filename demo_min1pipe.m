@@ -7,10 +7,16 @@ Fsi_new = 20; %%% no temporal downsampling %%%
 % se = 5; %%% structure element for background removal %%%
 ismc = true; %%% run movement correction %%%
 flag = 1; %%% use auto seeds selection; 2 if manual %%%
-% isvis = true; %%% do visualize %%%
+isvis = true; %%% do visualize %%%
 ifpost = false; %%% set true if want to see post-process %%%
 
 %% main program %%
+gcp
+% pth = 'G:\Shared drives\CarasLab\PROTOCOLS\Miniscope_Analysis\MiniAn\SUBJ-ID-819\11_49_08\My_V4_Miniscope';
+% d = dir(fullfile(pth,"*.avi"));
+% ffn = cellfun(@(a,b) fullfile(a,b),{d.folder},{d.name},'uni',0);
+% [fname, frawname, fregname] = min1pipe(Fsi, Fsi_new, [], [], ismc, flag,ffn);
+
 % [fname, frawname, fregname] = min1pipe(Fsi, Fsi_new, spatialr, se, ismc, flag); % old if you want to manually select parameters %  
 [fname, frawname, fregname] = min1pipe(Fsi, Fsi_new, [], [], ismc, flag);
 
