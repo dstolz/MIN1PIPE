@@ -90,7 +90,8 @@ function [m, filename, imaxf, imeanf, pixh, pixw, nf, imx1, imn1] = data_cat(pat
                 catch
                     info = aviinfo([path_name, dirs{1}]);
                     dt = info.FileSize / (info.NumFrames * info.Width * info.Height);
-                    dtype = ['uint', num2str(round(dt) * 8)];
+                    %dtype = ['uint', num2str(round(dt) * 8)];
+                    dtype = 'uint8';
                     vfmt = info.ImageType;
                 end
                 if strcmp(vfmt, 'RGB24')
