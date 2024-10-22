@@ -1,4 +1,4 @@
-function [file_name_to_save, filename_raw, filename_reg] = min1pipe(Fsi, Fsi_new, spatialr, se, ismc, flag)
+function [file_name_to_save, filename_raw, filename_reg] = min1pipe(Fsi, Fsi_new, spatialr, se, ismc, flag, ffn)
 % main_processing
 %   need to decide whether to use parallel computing
 %   Fsi: raw sampling rate
@@ -37,6 +37,7 @@ function [file_name_to_save, filename_raw, filename_reg] = min1pipe(Fsi, Fsi_new
     if nargin < 6 || isempty(flag)
         flag = 1;
     end
+
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%% parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,8 +66,20 @@ function [file_name_to_save, filename_raw, filename_reg] = min1pipe(Fsi, Fsi_new
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     %% get dataset info %%
-    [path_name, file_base, file_fmt] = data_info;
-    
+
+    if nargin < 7 || isempty(ffn)
+        [path_name, file_base, file_fmt] = data_info;
+    else
+        ffn = cellstr(ffn);
+        for i = 1:length(ffn)
+            [path_name{i}, file_base{i}, file_fmt{i}] = fileparts(ffn{i}); %#ok<AGROW>
+        end
+        path_name = char(unique(path_name));
+        path_name(end+1) = filesep;
+        file_fmt = cellfun(@(a) a(2:end),file_fmt,'uni',0);
+    end
+
+
     hpipe = tic;
     for i = 1: length(file_base)
         %%% judge whether do the processing %%%
