@@ -280,6 +280,10 @@ function min1pipe_init
     pathcvx = [cvx_dir, filesep, 'cvx', filesep, 'cvx_setup.m'];
     if ~onPath
         pathall = genpath(pathtop1);
+        % ignore .git
+        pathall = split(pathall, ';');
+        pathall = pathall(~contains(pathall, '.git'));
+        pathall = strjoin(pathall, ';');
         addpath(pathall)
         if ~exist([cvx_dir, filesep, 'cvx'], 'dir')
             if ispc
